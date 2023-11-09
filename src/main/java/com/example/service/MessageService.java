@@ -55,7 +55,15 @@ public class MessageService {
             return messageRepository.save(original);
         }
         
+        
+        return null;
+    }
 
+    public List<Message> getMessagesByUserId(int id){
+        List<Message> messageList = messageRepository.findAllByPostedBy(id);
+        if(messageList != null){
+            return messageList;
+        }
         return null;
     }
 }
