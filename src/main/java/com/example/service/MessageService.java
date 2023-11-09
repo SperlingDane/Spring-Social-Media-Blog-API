@@ -47,4 +47,15 @@ public class MessageService {
         }
         return null;
     }
+
+    public Message updateMessageById(Message message, int id){
+        Message original = messageRepository.getById(id);
+        if(original != null && message.getMessage_text() != "" && message.getMessage_text().length() < 255){
+            original.setMessage_text(message.getMessage_text());
+            return messageRepository.save(original);
+        }
+        
+
+        return null;
+    }
 }
