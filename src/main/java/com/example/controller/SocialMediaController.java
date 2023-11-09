@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.swing.RepaintManager;
 import javax.websocket.server.PathParam;
 
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,8 +95,11 @@ public class SocialMediaController {
     }
     
     @GetMapping("/messages/{message_id}")
-    public ResponseEntity<Message> getMessageById(@RequestBody Message message){
-
-        return null;
+    public ResponseEntity<Optional<Message>> getMessageByIdHandler(@PathVariable("message_id") Integer messageId){
+        Optional<Message> message = messageService.getMessageById(messageId);
+        if(message.isEmpty()){
+            return ResponseEntity.status(200).body(null);
+        }
+        return ResponseEntity.status(200).body(message);
     }
 }

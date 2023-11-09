@@ -35,8 +35,10 @@ public class AccountService {
 
     public Account loginToAccount(Account account){
         Account possibleAccount = accountRepository.findByUsername(account.getUsername());
-        if(possibleAccount != null && possibleAccount.getPassword() == account.getPassword()){
-            return accountRepository.findByUsername(account.getUsername());
+        if(possibleAccount != null){
+            if(account.getPassword() == possibleAccount.getPassword()){            
+                return accountRepository.findByUsername(account.getUsername());
+            }
         }
         return null;
     }
