@@ -38,7 +38,7 @@ public class SocialMediaController {
     private ResponseEntity<Account> register(@RequestBody Account account) {
         try{
             if(!accountService.accountExists(account)){
-                if((account.getUsername() != null || account.getUsername() != " ") && account.getPassword().length() > 4){
+                if((account.getUsername() != null || account.getUsername() != "") && account.getPassword().length() > 4){
                     
                     Account createdAccount = accountService.registerAccount(new Account(account.getUsername(), account.getPassword()));
                     
@@ -70,11 +70,30 @@ public class SocialMediaController {
         return new ResponseEntity<Account>(existingAccount, HttpStatus.OK);
     }
 
+    @PostMapping("/messages")
+    private ResponseEntity<Message> createMessage(@RequestBody Message message){
+        if(accountService.accountExists(message.getPosted_by())){
+            Message newMessage = messageService.createMessage(message);
+            if(newMessage != null){
+                return new ResponseEntity<>(newMessage, HttpStatus.OK);
+            }
+        }
+
+        return ResponseEntity.status(400).body(null);
+    }
 
     @GetMapping("/messages")
     public ResponseEntity<List<Message>> getAllMessages(){
         List<Message> messageList = messageService.getAllMessages();
-        return ResponseEntity.status(200).body(messageList);
+        if (messageList != null){
+            return ResponseEntity.status(200).body(messageList);
+        }
+        return null;
     }
     
+    @GetMapping("/messages/{message_id}")
+    public ResponseEntity<Message> getMessageById(@RequestBody Message message){
+
+        return null;
+    }
 }
