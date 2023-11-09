@@ -38,4 +38,13 @@ public class MessageService {
         
         return message;
     }
+
+    public Optional<Message> deleteMessageById(int id){
+        Optional<Message> message = messageRepository.findById(id);
+        if(message != null){
+            messageRepository.deleteById(id);
+            return message;
+        }
+        return null;
+    }
 }
