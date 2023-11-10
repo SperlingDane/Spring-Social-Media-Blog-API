@@ -113,6 +113,7 @@ public class SocialMediaController {
         Message updatedMessage = messageService.updateMessageById(message, messageId);
         if(updatedMessage == null){
             return ResponseEntity.status(400).body(null);
+            
         }
 
         return ResponseEntity.status(200).body(1);
